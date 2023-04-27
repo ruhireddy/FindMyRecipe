@@ -7,9 +7,11 @@ class HashMap:
     self.__capacity = capacity
     self.__load_factor = 0.8
     self.__table = [[] for _ in range(self.__capacity)]
+    
   #hash is the number of ingredients in the recipe
   def __hash_function(self, recipe):
     return len(recipe.getIngredients()) % self.__capacity
+  
   #insert recipe into hash table
   def insert(self, recipe):
     #get hash key
@@ -23,7 +25,6 @@ class HashMap:
         for j in i:
           temp_index = self.__hash_function(j)
           temp_table[temp_index].append(j)
-
       self.__table = temp_table
       del temp_table
       self.__capacity *= 2
