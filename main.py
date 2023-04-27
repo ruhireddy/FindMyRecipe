@@ -1,3 +1,5 @@
+"""Handles GUI and inserting data into data structures"""
+
 import tkinter as tk
 from tkinter import *
 import json
