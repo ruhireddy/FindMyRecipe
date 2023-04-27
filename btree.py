@@ -1,3 +1,5 @@
+"""Creates btree to store recipes; organized by number of ingredients in recipe"""
+
 class Node:
     def __init__(self, t, leaf):
         self.keys = [None] * (2 * t - 1)  # array to hold each key in a node
@@ -39,7 +41,7 @@ class Node:
             z.keys[j] = y.keys[j + self.t]
         if not y.leaf:
             for j in range(self.t):
-                z.C[j] = y.C[j + self.t]
+                z.children[j] = y.children[j + self.t]
         y.n = self.t - 1
         for j in range(self.n, i, -1):
             self.children[j + 1] = self.children[j]
@@ -54,14 +56,14 @@ class Node:
         # iterate through nodes
         for i in range(self.n):
             if not self.leaf:
-                self.children[i].search(list_of_ingredients)
+                self.children[i].search(list_of_ingredients, result)
             # check if ingredients are found in current key and print
             if self.recipes[i] is not None and len(self.recipes[i].getIngredients()) != 0 and self.recipes[i].searchIngredients(list_of_ingredients):
                 # print(self.recipes[i].getTitle(), end='\n')
                 # print(self.recipes[i].getIngredients(), end='\n')
                 result.append(self.recipes[i])
         if not self.leaf:
-            self.children[i + 1].search(list_of_ingredients)
+            self.children[i + 1].search(list_of_ingredients, result)
 
 
 # A BTree
@@ -94,12 +96,12 @@ class BTree:
             # if root is full, split it
             if self.root.n == 2 * self.t - 1:
                 s = Node(self.t, False)
-                s.C[0] = self.root
+                s.children[0] = self.root
                 s.split_child(0, self.root)
                 i = 0
                 if s.keys[0] < index:
                     i += 1
-                s.C[i].insert_not_full(index, recipe)
+                s.children[i].insert_not_full(index, recipe)
                 self.root = s
             # else insert new key in the root node
             else:
