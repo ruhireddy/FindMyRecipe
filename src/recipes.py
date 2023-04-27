@@ -27,7 +27,6 @@ class Recipes:
             continue
         elif countIterations == len(ingredient_to_search) - 1:
           return False
-      
     return True
     
   #removes filler words from dataset
